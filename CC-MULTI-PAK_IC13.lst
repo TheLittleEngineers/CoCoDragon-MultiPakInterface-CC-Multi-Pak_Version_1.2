@@ -1,0 +1,44 @@
+LISTING FOR LOGIC DESCRIPTION FILE: CC-MULTI-PAK_IC13.pld            Page 1
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Wed Sep 02 15:58:09 2009
+
+  1:Name     CC-Multi-Pak ;
+  2:PartNo   CC-Multi-Pak ;
+  3:Date     05/12/2009 ;
+  4:Revision 01 ;
+  5:Designer J & R ;
+  6:Company  http://www.GIMEchip.com/ ;
+  7:Assembly CC-Multi-Pak CoCo 1,2,3 PLD (GAL) ;
+  8:Location IC13 ;
+  9:Device   g16v8 ;
+ 10:
+ 11:/* ***************************************** INPUT PINS **********************************************/
+ 12:PIN 1 = !FFXX;        /* LOW For Any Address Between $FF00-$FFFF                                     */ 
+ 13:PIN [2..9] = [A7..0]; /* CPU Address Lines A7 - A0                                                   */
+ 14:PIN 11 = RW;          /* READ = 1, WRITE = 0                                                         */ 
+ 15:PIN 12 = E;           /* E-Clock                                                                     */ 
+ 16:PIN 13 = Q;           /* Q-Clock                                                                     */ 
+ 17:PIN 18 = !CTS;        /* Cartridge Select.                                                           */
+ 18:PIN 19 = !SLENB;      /* Input To Disable Device Selection.                                          */                    
+ 19:/* ***************************************** OUTPUT PINS *********************************************/
+ 20:PIN 14 = !DBEN;       /* Active LOW - Enables The Multi-Pak Interface Data Buffer                    */
+ 21:PIN 15 = !IOR;        /* Active LOW - Allows The Contents Of The Slot Select Latch To Be Read        */ 
+ 22:PIN 16 = !IOW;        /* Active LOW - Allows Writing Data Into The Slot Select Latch                 */
+ 23:/* ***************************** LOGIC EQUATIONS & VARIABLE DEFINITIONS ******************************/
+ 24:FIELD ADDRESS = [A7..0];                        /*                                                   */
+ 25:LATCH = ADDRESS:[7F];                           /* $FF7F                                             */
+ 26:IOR = LATCH & FFXX & E & RW;                    /* Active LOW on $FF7F and E=1 and RW=1              */
+ 27:IOW = LATCH & FFXX & E & !RW & !Q;              /* Active LOW on $FF7F and E=1 and RW=0 and Q=0      */
+ 28:EN = ADDRESS:[40..7F] & FFXX;                   /* Active on Addresses $FF40-$FF7F                   */
+ 29:DBEN = EN # SLENB # CTS;                        /* Active LOW on EN or SLENB or CTS                  */
+ 30:/* ***************************************************************************************************/
+ 31:
+ 32:
+
+
+
+Jedec Fuse Checksum       (1eba)
+Jedec Transmit Checksum   (ad08)

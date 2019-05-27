@@ -1,0 +1,43 @@
+%SIGNAL
+PIN   9 =  A0 
+PIN   8 =  A1 
+PIN   7 =  A2 
+PIN   6 =  A3 
+PIN   5 =  A4 
+PIN   4 =  A5 
+PIN   3 =  A6 
+PIN   2 =  A7 
+PIN  18 = !CTS 
+PIN  14 = !DBEN 
+PIN  12 =  E 
+PIN   1 = !FFXX 
+PIN  15 = !IOR 
+PIN  16 = !IOW 
+PIN  13 =  Q 
+PIN  11 =  RW 
+PIN  19 = !SLENB 
+%END
+
+%FIELD
+FIELD ADDRESS = A7,A6,A5,A4,A3,A2,A1,A0
+%END
+
+%EQUATION
+DBEN =>
+    A6 & !A7 & !FFXX
+  # !SLENB
+  # !CTS
+
+EN =>
+    A6 & !A7 & FFXX
+
+IOR =>
+    A0 & A1 & A2 & A3 & A4 & A5 & A6 & !A7 & E & !FFXX & RW
+
+IOW =>
+    A0 & A1 & A2 & A3 & A4 & A5 & A6 & !A7 & E & !FFXX & !Q & !RW
+
+LATCH =>
+    A0 & A1 & A2 & A3 & A4 & A5 & A6 & !A7
+
+%END
