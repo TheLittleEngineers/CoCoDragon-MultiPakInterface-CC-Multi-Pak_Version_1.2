@@ -3,4 +3,6 @@ CoCoDragon-MultiPakInterface-CC-Multi-Pak_Version_1.2 - This is a clone of the T
 
 There is an OSHPark Page Here: https://oshpark.com/shared_projects/XEfv8Oa0
 
-There is a GitHub Page Here: 
+There is a GitHub Page Here: https://github.com/TheLittleEngineers/CoCoDragon-MultiPakInterface-CC-Multi-Pak_Version_1.2
+
+
