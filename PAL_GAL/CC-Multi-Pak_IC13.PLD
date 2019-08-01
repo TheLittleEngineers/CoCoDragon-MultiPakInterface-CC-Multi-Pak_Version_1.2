@@ -1,0 +1,32 @@
+Name     CC-Multi-Pak ;
+PartNo   CC-Multi-Pak ;
+Date     05/12/2009 ;
+Revision 01 ;
+Designer J & R (Original by "The R.A.T." ;
+Company  http://www.GIMEchip.com/ http://www.TheLittleEngineers.org/ ;
+Assembly CC-Multi-Pak CoCo 1,2,3 PLD (GAL) ;
+Location IC13 ;
+Device   g16v8 ;
+
+/* ***************************************** INPUT PINS **********************************************/
+PIN 1 = !FFXX;        /* LOW For Any Address Between $FF00-$FFFF                                     */ 
+PIN [2..9] = [A7..0]; /* CPU Address Lines A7 - A0                                                   */
+PIN 11 = RW;          /* READ = 1, WRITE = 0                                                         */ 
+PIN 12 = E;           /* E-Clock                                                                     */ 
+PIN 13 = Q;           /* Q-Clock                                                                     */ 
+PIN 18 = !CTS;        /* Cartridge Select.                                                           */
+PIN 19 = !SLENB;      /* Input To Disable Device Selection.                                          */                    
+/* ***************************************** OUTPUT PINS *********************************************/
+PIN 14 = !DBEN;       /* Active LOW - Enables The Multi-Pak Interface Data Buffer                    */
+PIN 15 = !IOR;        /* Active LOW - Allows The Contents Of The Slot Select Latch To Be Read        */ 
+PIN 16 = !IOW;        /* Active LOW - Allows Writing Data Into The Slot Select Latch                 */
+/* ***************************** LOGIC EQUATIONS & VARIABLE DEFINITIONS ******************************/
+FIELD ADDRESS = [A7..0];                        /*                                                   */
+LATCH = ADDRESS:[7F];                           /* $FF7F                                             */
+IOR = LATCH & FFXX & E & RW;                    /* Active LOW on $FF7F and E=1 and RW=1              */
+IOW = LATCH & FFXX & E & !RW & !Q;              /* Active LOW on $FF7F and E=1 and RW=0 and Q=0      */
+EN = ADDRESS:[40..7F] & FFXX;                   /* Active on Addresses $FF40-$FF7F                   */
+DBEN = EN # SLENB # CTS;                        /* Active LOW on EN or SLENB or CTS                  */
+/* ***************************************************************************************************/
+/* This is based on the PALs developed by my Uncle "The R.A.T." Used by his permission				 */
+/* ************************************************************************************************* */

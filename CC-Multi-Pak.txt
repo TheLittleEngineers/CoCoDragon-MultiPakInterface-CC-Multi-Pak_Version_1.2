@@ -1,8 +1,0 @@
-This is a replacement for the 26-3024 and 26-3124 Multi-Pak Interfaces.
-Due to a recent crash of the wonderful PC (I need a MAC), I lost much
-of my data and projects. As a result, I had to recreate this schematic
-and board layout from scratch. This means this hasn't been tested. This
-information is provided as-is and I accept no responsibility for
-ANYTHING arising out of the use of this information, which is intended
-for educational purposes only. This information is the sole property
-of GIMEchip.com, more specifically, John Eric Turner and his Father.

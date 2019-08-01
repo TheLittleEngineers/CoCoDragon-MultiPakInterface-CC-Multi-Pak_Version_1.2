@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2019-05-27T15:11:16Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.4.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "CC-Multi-Pak"
+        },
+        "Owner": "Robert \"The R.A.T.\" Allen Turner <TheLittleEngineers@outlook.com>",
+        "Size": {
+            "X": 203.2,
+            "Y": 203.2
+        }
+    }
+}

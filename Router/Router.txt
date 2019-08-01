@@ -1,0 +1,1 @@
+Router.exe requires that a Java Compatible Runtime Environment be installed.
