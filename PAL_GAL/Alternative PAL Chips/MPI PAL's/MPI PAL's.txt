@@ -1,0 +1,3 @@
+These PAL Equations are untested. Use at your own risk. -The R.A.T.
+Update: CC BY-SA 4.0 License, 04/11/2024 - they have now been tested.
+These would be IC13 in the current design.

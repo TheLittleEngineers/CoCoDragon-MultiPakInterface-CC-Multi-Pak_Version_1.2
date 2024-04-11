@@ -1,0 +1,64 @@
+Name     26-3024b ;
+PartNo   RAT-3024b ;
+Date     12/12/2008 ;
+Revision 01 ;
+Designer "The R.A.T." ;
+Company  Binary Systems ;
+Assembly 26-3024 M.P.I. Upgrade PAL ;
+Location U6 ;
+Device   g16v8 ;
+
+/* ***************************************** INPUT PINS **********************************************/
+PIN 1 = !FFXX;        /* The M.P.I. Circuitry Drives This Pin LOW For Any Address Between $FF00-$FFFF*/ 
+PIN [2..9] = [A7..0]; /* CPU Address Lines A7 - A0                                                   */
+PIN 11 = RW;          /* READ = 1, WRITE = 0                                                         */ 
+PIN 12 = E;           /* System E-Clock (ENABLE a.k.a. PHASE 2)                                      */ 
+PIN 13 = Q;           /* System Q-Clock (QUADRATURE a.k.a. PHASE 1)                                  */ 
+PIN 18 = !CTS;        /* Cartridge Select Signal. Used to enable Program Pak ROM Software            */
+PIN 19 = !SLENB;      /* Input To Disable Device Selection.                                          */                    
+/* ***************************************** OUTPUT PINS *********************************************/
+PIN 14 = !DBEN;       /* Active LOW - Enables The Multi-Pak Interface Data Buffer                    */
+PIN 15 = !IOR;        /* Active LOW - Allows The Contents Of The Slot Select Latch To Be Read        */ 
+PIN 16 = !IOW;        /* Active LOW - Allows Writing Data Into The Slot Select Latch                 */
+/* ***************************** LOGIC EQUATIONS & VARIABLE DEFINITIONS ******************************/
+FIELD ADDRESS = [A7..0];
+LATCH = ADDRESS:[7F]; /* Original M.P.I. Latch Addressed At $FF7F And $FF9F, Second Vers. $FF7F Only */
+IOR = LATCH & FFXX & E & RW;                    /* Active LOW on $FF7F and E=1 and RW=1              */
+IOW = LATCH & FFXX & E & !RW & !Q;              /* Active LOW on $FF7F and E=1 and RW=0 and Q=0      */
+EN1 = ADDRESS:[00..3F] & FFXX & E & !RW & !Q;   /* Active on Write Cycle to $FF00-$FF3F              */
+EN2 = ADDRESS:[40..BF] & FFXX;                  /* Active on Addresses $FF40-$FFBF                   */
+DBEN = EN1 # EN2 # SLENB # CTS;                 /* Active LOW on EN1 or EN2 or SLENB or CTS          */
+/* ***************************************************************************************************/
+/* *This is an improved PAL chip for the Large Grey  and  Large  White  Multi-Pak  Interfaces,  Radio*/
+/* *Shack Catalog Number 26-3024. Although the Large Gray and Large White  M.P.I.'s  share  the  same*/
+/* *Cat. No, 26-3024, there does exist a difference, other than color, between the two. The  Original*/
+/* *M.P.I. (the grey one) mapped the slot select latch at both $FF7F and $FF9F, and the manual stated*/
+/* *that $FF9F was the address to be used for writing to the slot select latch. This is  contrary  to*/
+/* *established design practices, which dictate that a device that is not "fully" decoded be accessed*/
+/* *via the lowest set of addresses at which the device is mapped, thus $FF7F should have always been*/
+/* *considered to be the address of the M.P.I. slot select latch. Tandy Apparently realized  this  as*/
+/* *the Large White M.P.I. fully decoded the slot select latch at $FF7F. As far as I am  aware,  this*/
+/* *is the only difference between the Large Grey and Large White M.P.I.'s.  The M.P.I.  Data  Buffer*/
+/* *is enabled on all Addresses between $FF00 and $FFBF and is also active on  either,  or  both  the*/
+/* *!SLENB and !CTS signals. I believe that this constitutes a design flaw in these  M.P.I.'s,  since*/
+/* *the two PIA's within the CoCo are mapped between $FF00 and $FF3F. Therefore, in  order  to  avoid*/
+/* *the possibility of Data Buss Contention, the M.P.I. Data Buffer SHOULD NOT  be  active  when  any*/
+/* *address in the range of $FF00-$FF3F appears on the address buss. The internals of the CoCo 1  and*/
+/* *2 are NOT "fully" decoded, and so PIA0 is mapped between $FF00 and $FF1F, whilst PIA1  is  mapped*/
+/* *between $FF20 and $FF3F. In reality, PIA0 only needs addresses $FF00-$FF03 and  PIA1  only  needs*/
+/* *addresses $FF20-$FF23. Due to the "partial" decoding, PIA0 mirrors  throughout  $FF04-$FF1F,  and*/
+/* *PIA1  mirrors  throughout  $FF24-$FF3F.  This  improved  PAL  provides  the  following  features:*/
+/* *1) The slot select latch is mapped at $FF7F only.                                                */
+/* *2) Addresses $FF00-$FF3F are locked out during a read cycle, meaning the MPI  Data  Buffer  isn't*/
+/* *   active during a READ cycle from these addresses, thereby circumventing the possibility of DATA*/
+/* *   buss contention. The Data Buffer is allowed to become active during a  WRITE  cycle  to  these*/
+/* *   addresses.                                                                                    */
+/* *3) The Data Buffer is active on either, or both, the !SLENB and !CTS signals.                    */
+/* ***************************************************************************************************/
+/* *This Improved M.P.I. PAL is intended  for  use  in  a  #26-3024  (Grey  or  White)  M.P.I.  ONLY.*/
+/* *This Improved M.P.I. PAL is intended for use with a CoCo 1 or 2  ONLY.  Not  CoCo  3  Compatible.*/
+/* *               This Improved M.P.I. PAL is 100% designed by and Copyright of:                    */
+/* *          Robert "The R.A.T." Allen Turner, (c) 1994 - 2008, All Rights Reserved.                */
+/* *                                CoCo 3 Version Also Available.                                   */
+/* *CC BY-SA 4.0 License, 04/11/2024                                                                 */
+/* ***************************************************************************************************/

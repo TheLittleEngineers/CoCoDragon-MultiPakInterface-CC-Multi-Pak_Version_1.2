@@ -1,0 +1,30 @@
+Name     26-3024 M.P.I. Upgrade ;
+PartNo   GCC-3024.01 ;
+Date     6/1/2010 ;
+Revision 01 ;
+Designer J&R ;
+Company  GIMEchip.com ;
+Assembly 26-3024 M.P.I. Upgrade PAL for CoCo 3 ;
+Location U6 ;
+Device   g16v8 ;
+/* ***************************************** INPUT PINS **********************************************/
+PIN 01 = !FFXX;       /* LOW For Any Address Between $FF00-$FFFF                                     */ 
+PIN [2..9] = [A7..0]; /* CPU A7 - A0                                                                 */
+PIN 11 = RW;          /* READ = 1, WRITE = 0                                                         */ 
+PIN 12 = E;           /* E-Clock                                                                     */ 
+PIN 13 = Q;           /* Q-Clock                                                                     */ 
+PIN 18 = !CTS;        /* Cartridge Select Signal.                                                    */
+PIN 19 = !SLENB;      /* Input To Disable Device Selection.                                          */                    
+/* ***************************************** OUTPUT PINS *********************************************/
+PIN 14 = !DBEN;       /* Enables The Multi-Pak Interface Data Buffer                                 */
+PIN 15 = !IOR;        /* Read the Slot Select Latch.                                                 */ 
+PIN 16 = !IOW;        /* Write the Slot Select Latch                                                 */
+/* ***************************** LOGIC EQUATIONS & VARIABLE DEFINITIONS ******************************/
+FIELD ADDRESS = [A7..0];                        /*                                                   */
+LATCH = ADDRESS:[7F];                           /* Slot Select Latch@$FF7F                           */
+IOR = LATCH & FFXX & E & RW;                    /* Active on $FF7F and E=1 and RW=1                  */
+IOW = LATCH & FFXX & E & !RW & !Q;              /* Active on $FF7F and E=1 and RW=0 and Q=0          */
+DBEN = (ADDRESS:[40..7F] & FFXX) # SLENB # CTS;/* Active $FF40-$FF7F or SLENB or CTS                 */
+/* ***************************************************************************************************/
+/* *CC BY-SA 4.0 License, 04/11/2024 - this would be IC13 in the current design.                     */
+/* ***************************************************************************************************/
